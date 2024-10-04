@@ -39,7 +39,7 @@ Image super-resolution methods have made significant strides with deep learning 
 </p>
 
 <p align="center">
-<img src="figures/aux_dig.drawio-2-1.svg" width="700"/>
+<img src="figures/mim_dig.svg" width="700"/>
 </p>
 
 
