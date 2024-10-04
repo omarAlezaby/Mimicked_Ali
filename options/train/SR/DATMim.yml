@@ -1,0 +1,131 @@
+name: SR_DATLite_MimSimp
+model_type: SRMimSimpModel
+scale: 4
+num_gpu: 1
+manual_seed: 42
+
+datasets:
+  train:
+    name: SSRAW_train
+    type: PairedImageNoiseDataset
+    dataroot_lq: AliData/SSRAW_RGB/train/input
+    dataroot_gt: AliData/SSRAW_RGB/train/gt
+    pre_load: true
+    meta_info_file: ~
+    filename_tmpl: '{}'
+    io_backend:
+      type: disk
+
+    gt_size: 128
+    use_flip: true
+    use_rot: true
+
+    # data loader
+    use_shuffle: true
+    num_worker_per_gpu: 12
+    batch_size_per_gpu: 32
+    dataset_enlarge_ratio: 1
+    prefetch_mode: ~
+
+  val:
+    name: SSRAW_valid
+    type: PairedImageNoiseDataset
+    dataroot_lq: AliData/SSRAW_RGB/test/input
+    dataroot_gt: AliData/SSRAW_RGB/test/gt
+    pre_load: true
+    filename_tmpl: '{}'
+    io_backend:
+      type: disk
+
+
+# network structures
+network_g:
+  type: DAT
+  upscale: 4
+  in_chans: 3
+  img_size: 64
+  img_range: 1.
+  depth: [18]
+  embed_dim: 60
+  num_heads: [6]
+  expansion_factor: 2
+  resi_connection: '3conv'
+  split_size: [8,32]
+  upsampler: 'pixelshuffledirect'
+
+network_mim:
+  type: MimSimp
+
+# path
+path:
+  pretrain_network_g: ~
+  strict_load_g: true
+  resume_state: ~
+
+# training settings
+train:
+  optim_g:
+    type: AdamW
+    lr: !!float 1e-3
+    weight_decay: 0.
+    betas: [0.9, 0.9]
+
+  scheduler:
+    type: TrueCosineAnnealingLR
+    T_max: 200000
+    eta_min: !!float 1e-7
+
+  total_iter: 200000
+  warmup_iter: -1 # no warm up
+
+  # losses
+  pixel_opt:
+    type: L1Loss
+    loss_weight: 1
+    reduction: mean
+
+  mim_opt:
+    type: L1LiteISPLoss
+    loss_weight: 1
+    reduction: mean
+    ali_loss: true
+    super_res_ali: false
+    mim: true
+    luminance: false
+
+  color_opt:
+    type: CDNetLoss
+    loss_weight: .01
+    ckpt: "experiments/pretrained_models/CD-00014.pt"
+
+# validation settings
+val:
+  val_type: "full"
+  val_freq: !!float 1e4
+  save_img: true
+  save_img_numb: 50
+
+
+  metrics:
+    psnr: # metric name, can be arbitrary
+      type: calculate_psnr
+      crop_border: 0
+      test_y_channel: false
+    ssim:
+      type: calculate_ssim
+      crop_border: 0
+      test_y_channel: false
+
+# logging settings
+logger:
+  print_freq: 200
+  save_checkpoint_freq: !!float 1e4
+  use_tb_logger: true
+  wandb:
+    project: ~
+    resume_id: ~
+
+# dist training settings
+dist_params:
+  backend: nccl
+  port: 29500

@@ -1,0 +1,43 @@
+# general settings
+name: SSRAW_Test-SR_RRDBNet_MimSimp
+model_type: SRModel
+scale: 4
+num_gpu: 1
+manual_seed: 10
+
+datasets:
+  test_1:  # the 1st test dataset
+    task: SR
+    name: SSRAW_valid
+    type: PairedImageDataset
+    dataroot_lq: AliData/SSRAW_RGB/test/input
+    dataroot_gt: AliData/SSRAW_RGB/test/gt
+    filename_tmpl: '{}'
+    io_backend:
+      type: disk
+
+
+network_g:
+  type: RRDBNet
+  in_nc: 3
+  out_nc: 3
+  nf: 64
+  nb: 23
+  gc: 32
+
+
+# path
+path:
+  pretrain_network_g: experiments/SR_RRDBNet_MimSimp/models/net_g_latest.pth
+  strict_load_g: True
+
+# validation settings
+val:
+  save_img: True
+  suffix: ~  # add suffix to saved images, if None, use exp name
+  use_chop: False  # True to save memory, if img too large
+
+  metrics:
+    psnr: # metric name, can be arbitrary
+      type: calculate_psnr
+      crop_border: 4
