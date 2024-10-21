@@ -9,14 +9,14 @@
 #### **Computer Vision Lab, CAIDAS & IFI, University of Würzburg**
 #### **<sup>*</sup> Corresponding authors**
 
-[![paper](https://img.shields.io/badge/arXiv-Paper-<COLOR>.svg)]()
-[![project](https://img.shields.io/badge/project-page-brightgreen)]()
+[![paper](https://img.shields.io/badge/arXiv-Paper-<COLOR>.svg)](https://arxiv.org/abs/2410.05410)
+<!-- [![project](https://img.shields.io/badge/project-page-brightgreen)]() -->
 <!-- [![demo](https://img.shields.io/badge/huggingface-demo-brightgreen)]() -->
 
 ## Latest
 <!-- - `05/10/2024`: Added 🤗[Demo](). -->
-- `07/10/2024`: Code & ckpt & results release. [Google Drive]()
-- `07/10/2024`: Technical report released on [arxiv]().
+- `07/10/2024`: Code & ckpt & Data release. [Google Drive](https://drive.google.com/drive/folders/1GWQfi4b893WIlyILLqX5lqwgBghQej37?usp=sharing)
+- `07/10/2024`: Technical report released on [arxiv](https://arxiv.org/abs/2410.05410).
 - `20/09/2024`: Paper has been accepted at ACCV 2024! 🎉 
 
 
@@ -85,11 +85,21 @@ python setup.py develop --no_cuda_ext
 
 
 ## Usage
-Pre-trained checkpoints and visual results can be downloaded [here]().
+Pre-trained checkpoints and visual results can be downloaded [here](https://drive.google.com/drive/folders/1GWQfi4b893WIlyILLqX5lqwgBghQej37?usp=sharing).
 
 In `options` you can find the corresponding config files for reproducing our experiments.
 
-##### **Testing**
+#### **Datasets**
+- [SR-RAW](https://github.com/ceciliavision/zoom-learn-zoom/tree/master): we preprocessed the original SR-RAW dataset according to the [code](https://github.com/ceciliavision/zoom-learn-zoom/blob/master/demo_rawrgb_pair.ipynb). We slightly changed the code to generate RGB to RGB data instead of RAW to RGB. You can download the dataset from this [link](https://drive.google.com/drive/folders/1hpLG1ksFV_76ZNrUg9XGvSotMvX9tV_Z). We used the same split for training/testing.
+- [RealSR](https://github.com/csjcai/RealSR): We use the data capture used the Canon camera for our experiments. You can download the dataset from this [link](https://drive.google.com/file/d/1gKnm9BdgyqISCTDAbGbpVitT-QII_unw/view). We used the same training/testing split.
+- Synthetic datasets: For our synthetic benchmark we used Set5, Set14, BSD100, Urban100, Manga109, and DIV2KRK datasets. You can download the datasets from this [link](https://drive.google.com/file/d/1yMbItvFKVaCT93yPWmlP3883XtJ-wSee/view) and this [link](http://www.wisdom.weizmann.ac.il/~vision/kernelgan/DIV2KRK_public.zip) for DIV2KRK dataset.
+
+#### **Testing**
+
+##### **Synthetic Benchmark**
+We used the evaluation code and datasets from [DAT](https://github.com/zhengchen1999/DAT) for our Synthetic Benchmark. You can dowenload the dataset from this link 
+##### **Realistic Data Benchmark**
+
 For testing the pre-trained SR model with our Alignment please use following commands To generate output. Replace `[TEST OPT YML]` with the path to the corresponding option file.
 `````
 python basicsr/test.py -opt [TEST OPT YML]
@@ -99,7 +109,7 @@ Measure the No Reference metric on the output images.
 python scripts/no_ref_quality.py --metric [Metric Name (niqe,nrqm,pi)] --imgs_path [Images Folder]
 `````
 
-##### **Training**
+#### **Training**
 For single-GPU training use the following commands. Replace `[TRAIN OPT YML]` with the path to the corresponding option file.
 `````
 python basicsr/train.py -opt [TRAIN OPT YML] 
@@ -110,7 +120,12 @@ python basicsr/train.py -opt [TRAIN OPT YML]
 If you find our work helpful, please consider citing the following paper and/or ⭐ the repo.
 
 ```
-
+@article{elezabi2024enhanced,
+  title={Enhanced Super-Resolution Training via Mimicked Alignment for Real-World Scenes},
+  author={Elezabi, Omar and Wu, Zongwei and Timofte, Radu},
+  journal={arXiv preprint arXiv:2410.05410},
+  year={2024}
+}
 ```
 
 ## Acknowledgements
