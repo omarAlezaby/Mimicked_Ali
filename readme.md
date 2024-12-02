@@ -15,7 +15,7 @@
 
 ## Latest
 <!-- - `05/10/2024`: Added 🤗[Demo](). -->
-- `07/10/2024`: Code & ckpt & Data release. [Google Drive](https://drive.google.com/drive/folders/1GWQfi4b893WIlyILLqX5lqwgBghQej37?usp=sharing)
+- `02/12/2024`: Code & ckpt & Data release. [Google Drive](https://drive.google.com/drive/folders/1GWQfi4b893WIlyILLqX5lqwgBghQej37?usp=sharing)
 - `07/10/2024`: Technical report released on [arxiv](https://arxiv.org/abs/2410.05410).
 - `20/09/2024`: Paper has been accepted at ACCV 2024! 🎉 
 
